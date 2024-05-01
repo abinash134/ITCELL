@@ -11,6 +11,10 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'super_admin') {
 // Fetch all tickets from the database
 $query = "SELECT * FROM tickets";
 $result = mysqli_query($conn, $query);
+
+// Fetch all users from the database
+$user_query = "SELECT * FROM users";
+$user_result = mysqli_query($conn, $user_query);
 ?>
 
 <!DOCTYPE html>
@@ -46,11 +50,17 @@ $result = mysqli_query($conn, $query);
                     <li class="list-group-item"><a href="create_ticket.php">Create Ticket</a></li>
                     <li class="list-group-item"><a href="create_user.php">Create User</a></li>
                     <li class="list-group-item"><a href="create_department.php">Create Department</a></li>
+                    <!-- Logout Button -->
+                    <li class="list-group-item">
+                        <form action="logout.php" method="post">
+                            <button type="submit" class="btn btn-danger btn-block">Logout</button>
+                        </form>
+                    </li>
                     <!-- Add more options as needed -->
                 </ul>
             </div>
             <!-- Ticket table -->
-            <div class="col-md-9">
+            <div class="col-md-6">
                 <h3 class="mt-3">All Tickets</h3>
                 <div class="table-responsive ticket-table">
                     <table class="table table-bordered">
@@ -80,6 +90,15 @@ $result = mysqli_query($conn, $query);
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <!-- User list -->
+            <div class="col-md-3">
+                <h3 class="mt-3">All Users</h3>
+                <ul class="list-group">
+                    <?php while($user_row = mysqli_fetch_assoc($user_result)): ?>
+                        <li class="list-group-item"><?php echo $user_row['username']; ?></li>
+                    <?php endwhile; ?>
+                </ul>
             </div>
         </div>
     </div>

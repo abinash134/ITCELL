@@ -6,18 +6,45 @@ if(isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result) == 1){
         $row = mysqli_fetch_assoc($result);
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['username'] = $row['username'];
-        $_SESSION['role'] = $row['role'];
-        header('Location: dashboard.php');
-        exit();
+        if(password_verify($password, $row['password'])) {
+            
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['role'] = $row['role'];
+
+            // Redirect based on role
+            switch ($row['role']) {
+                case 'super_admin':
+                    echo "Redirecting to super admin dashboard";
+                    header('Location: super_admin_dashboard.php');
+                    exit();
+                case 'admin':
+                    echo "Redirecting to admin dashboard";
+                    header('Location: admin_dashboard.php');
+                    exit();
+                case 'technician':
+                    echo "Redirecting to technician dashboard";
+                    header('Location: technician_dashboard.php');
+                    exit();
+                case 'department':
+                    echo "Redirecting to department dashboard";
+                    header('Location: department_dashboard.php');
+                    exit();
+                default:
+                    // Handle other roles or errors
+                    break;
+            }
+            exit();
+        } else {
+            $error = "Invalid password";
+        }
     } else {
-        $error = "Invalid username or password";
+        $error = "Invalid username";
     }
 }
 ?>
