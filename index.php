@@ -1,32 +1,38 @@
-<?php
-session_start();
-
-// Check if the user is already logged in
-if(isset($_SESSION['user_id'])) {
-    // Redirect the user to the appropriate dashboard page based on their role
-    $role_id = $_SESSION['role_id'];
-    switch($role_id) {
-        case 1: // Super Admin
-            header('Location: dashboard.php');
-            break;
-        case 2: // Admin
-            header('Location: admin_dashboard.php');
-            break;
-        case 3: // Department
-            header('Location: department_dashboard.php');
-            break;
-        case 4: // Technician
-            header('Location: technician_dashboard.php');
-            break;
-        default:
-            // Redirect to login page if role is not recognized
-            header('Location: login.php');
-            break;
-    }
-    exit();
-} else {
-    // Redirect to login page if user is not logged in
-    header('Location: login.php');
-    exit();
-}
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Role Selection</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS styles here */
+        .tab {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .tab:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Select Your Role</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="d-flex justify-content-around">
+                    <div class="tab" onclick="location.href='admin_login.php';">Admin</div>
+                    <div class="tab" onclick="location.href='technician_login.php';">Technician</div>
+                    <div class="tab" onclick="location.href='department_login.php';">Department</div>
+                    <div class="tab" onclick="location.href='super_admin_login.php';">Super Admin</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

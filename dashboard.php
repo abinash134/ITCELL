@@ -2,7 +2,7 @@
 session_start();
 include_once 'db.php';
 
-// Check if the user is logged in and is a super admin
+Check if the user is logged in and is a super admin
 if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'super_admin') {
     header('Location: login.php');
     exit();

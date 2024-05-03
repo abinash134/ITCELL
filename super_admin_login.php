@@ -18,10 +18,11 @@ if(isset($_POST['login'])){
             $_SESSION['role'] = $row['role'];
 
             // Redirect based on role
+            echo "<h2>" . $row['role'] . "</h2>";
             switch ($row['role']) {
                 case 'super_admin':
                     echo "Redirecting to super admin dashboard";
-                    header('Location: super_admin_dashboard.php');
+                    header('Location: dashboard.php');
                     exit();
                 case 'admin':
                     echo "Redirecting to admin dashboard";
